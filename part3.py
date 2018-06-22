@@ -16,7 +16,12 @@ b = soup.aside.find_all('li')
 print("Michigan Daily -- MOST READ")
 for x in range(len(b)):
 	print(b[x].string)
-	nexturl = page + (b[x].a.get('href'))
+	nexturl = site + (b[x].a.get('href'))
 	respurl = requests.get(nexturl).text
-	iteratingsoup = BeautifulSoup(respurl, 'html.parser')
-	print(" Author:",iteratingsoup.find('div', attrs = {'class':'link'}).contents[0].string)
+	more_soup = BeautifulSoup(respurl, 'html.parser')
+	try:
+		author = more_soup.find('div', attrs = {'class':'link'}).contents[0].string
+	except Exception:
+		author = 'Daily Staff Writer'
+		
+	print("  by",author)

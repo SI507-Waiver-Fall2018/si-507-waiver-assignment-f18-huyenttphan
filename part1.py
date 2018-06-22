@@ -56,7 +56,7 @@ def grab_tweets(user, tweets):
 
 def tweet2taggedtokens(tweet):
 	dumped = json.dumps(tweet['text'])
-	tokenized = [f.lower() for f in nltk.word_tokenize(dumped) if f.isalpha() and f not in webheader]
+	tokenized = [f for f in nltk.word_tokenize(dumped) if f.isalpha() and f not in webheader]
 	categorized = nltk.pos_tag(tokenized)
 	return categorized
 
@@ -87,6 +87,8 @@ nouns = sorted([(tups[0][0], tups[1]) for tups in tweet_frequency if 'NN' in tup
 verbs = sorted([(tups[0][0], tups[1]) for tups in tweet_frequency if 'VB' in tups[0][1]], key= lambda x: x[1], reverse=True)[:5]
 adjectives = sorted([(tups[0][0], tups[1]) for tups in tweet_frequency if 'JJ' in tups[0][1]], key= lambda x: x[1], reverse=True)[:5]
 
+print (nouns)
+
 def fivewordprinter(lst):
 	word = ''
 	for x in lst:
@@ -103,9 +105,24 @@ else:
 
 print('Most frequently used verbs:\n', fivewordprinter(verbs), sep='')
 print('Most frequently used nouns:\n', fivewordprinter(nouns), sep='')
-print('Most frequently used adjectives:\n', fivewordprinter(adjectives),'\n', sep='')
+print('Most frequently used adjectives:\n', fivewordprinter(adjectives), sep='')
 
 
 print('Original tweets: {}'.format(original_tweet_data['count']))
 print('Times Favorited (original tweets): {}'.format(original_tweet_data['favorite']))
 print('Times Retweeted (original tweets): {}'.format(original_tweet_data['retweeted']))
+
+
+#write to csv
+csv_file = "noun_data.csv" 
+
+csv = open(csv_file, "w") 
+
+title_row = "Noun,Number\n"
+csv.write(title_row)
+
+for n in nouns:
+	noun = n[0]
+	number = str(n[1])
+	row = noun + "," + number + "\n"
+	csv.write(row)
