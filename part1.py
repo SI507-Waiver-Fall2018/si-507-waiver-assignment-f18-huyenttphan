@@ -87,8 +87,6 @@ nouns = sorted([(tups[0][0], tups[1]) for tups in tweet_frequency if 'NN' in tup
 verbs = sorted([(tups[0][0], tups[1]) for tups in tweet_frequency if 'VB' in tups[0][1]], key= lambda x: x[1], reverse=True)[:5]
 adjectives = sorted([(tups[0][0], tups[1]) for tups in tweet_frequency if 'JJ' in tups[0][1]], key= lambda x: x[1], reverse=True)[:5]
 
-print (nouns)
-
 def fivewordprinter(lst):
 	word = ''
 	for x in lst:
